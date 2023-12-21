@@ -12,11 +12,11 @@ class Login extends Component {
   }
 
   onChangeUsername = event => {
-    this.seState({username: event.target.value})
+    this.setState({username: event.target.value})
   }
 
   onChangePassword = event => {
-    this.seState({password: event.target.value})
+    this.setState({password: event.target.value})
   }
 
   onSubmitSuccess = jwtToken => {
@@ -26,7 +26,7 @@ class Login extends Component {
   }
 
   onSubmitFailure = errorMsg => {
-    this.seState({showSubmitError: true, errorMsg})
+    this.setState({errorMsg, showSubmitError: true})
   }
 
   submitForm = async event => {
@@ -50,7 +50,6 @@ class Login extends Component {
   render() {
     const {username, password, showSubmitError, errorMsg} = this.state
     const token = Cookies.get('jwt_token')
-
     if (token !== undefined) {
       return <Redirect to="/" />
     }
@@ -59,8 +58,8 @@ class Login extends Component {
         <form className="form-container" onSubmit={this.submitForm}>
           <img
             src="https://assets.ccbp.in/frontend/react-js/logo-img.png "
-            alt="website logo"
             className="login-website-logo"
+            alt="website logo"
           />
           <div className="input-container">
             <label className="input-label" htmlFor="username">
@@ -81,11 +80,11 @@ class Login extends Component {
             </label>
             <input
               type="password"
-              id="username"
+              id="password"
               value={password}
-              className="username-input-field"
-              onChange={this.onChangeUsername}
-              placeholder="Password"
+              className="password-input-field"
+              onChange={this.onChangePassword}
+              placeholder="password"
             />
           </div>
           <button type="submit" className="login-button">
