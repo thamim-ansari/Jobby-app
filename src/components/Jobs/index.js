@@ -46,6 +46,29 @@ const salaryRangesList = [
   },
 ]
 
+const locationList = [
+  {
+    locationId: 'HYDERABAD',
+    label: 'Hyderabad',
+  },
+  {
+    locationId: 'BANGALORE',
+    label: 'Bangalore',
+  },
+  {
+    locationId: 'CHENNAI',
+    label: ' Chennai',
+  },
+  {
+    locationId: 'DELHI',
+    label: 'Delhi',
+  },
+  {
+    locationId: 'MUMBAI',
+    label: 'Mumbai',
+  },
+]
+
 const apiStatusConstants = {
   initial: 'INITIAL',
   success: 'SUCCESS',
@@ -60,6 +83,7 @@ class Jobs extends Component {
     employeeType: [],
     minimumSalary: 0,
     searchInput: '',
+    jobLocation: '',
   }
 
   componentDidMount() {
@@ -69,8 +93,8 @@ class Jobs extends Component {
   getJobs = async () => {
     this.setState({apiStatus: apiStatusConstants.inprogress})
 
-    const {employeeType, minimumSalary, searchInput} = this.state
-    const apiUrl = `https://apis.ccbp.in/jobs?employment_type=${employeeType.join()}&minimum_package=${minimumSalary}&search=${searchInput}`
+    const {employeeType, minimumSalary, searchInput, jobLocation} = this.state
+    const apiUrl = `https://apis.ccbp.in/jobs?employment_type=${employeeType.join()}&minimum_package=${minimumSalary}&search=${searchInput}&location=${jobLocation}`
     const jwtToken = Cookies.get('jwt_token')
     const options = {
       headers: {
@@ -197,9 +221,12 @@ class Jobs extends Component {
     }
   }
 
+  onChangeLocation = location => {
+    this.setState({jobLocation: location}, this.getJobs)
+  }
+
   render() {
-    const {searchInput, employeeType} = this.state
-    console.log(employeeType)
+    const {searchInput} = this.state
     return (
       <>
         <Header />
@@ -208,11 +235,13 @@ class Jobs extends Component {
             <FiltersGroup
               employmentTypesList={employmentTypesList}
               salaryRangesList={salaryRangesList}
+              locationList={locationList}
               changeSearchInput={this.changeSearchInput}
               searchInput={searchInput}
               getJobs={this.getJobs}
               changeSalary={this.changeSalary}
               changeEmployeeList={this.changeEmployeeList}
+              onChangeLocation={this.onChangeLocation}
             />
             <div className="search-input-jobs-list-container">
               <div className="search-input-container-desktop">
